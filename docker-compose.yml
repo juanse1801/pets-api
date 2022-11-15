@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    image: backend-user
+    environment:
+      DB_URL: "${DB_URL}"
+      PORT: "${PORT}"
+    depends_on:
+      - mongo
+    ports:
+      - "8080:${PORT}"
+    volumes:
+      - .:/usr/src
+    container_name: user-app
+  
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./db:/data/db
+    restart: always
+    container_name: mongo_db
